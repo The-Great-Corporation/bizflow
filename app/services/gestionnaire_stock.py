@@ -1,3 +1,4 @@
+import json
 from app.models.produit import Produit
 from app.models.mouvement_stock import MouvementStock, TypeMouvement
 
@@ -21,3 +22,24 @@ class GestionnaireStock:
         return produit.prix_vente - produit.prix_achat
     def produit_en_alerte(self) -> list[Produit]:
         return [produit for produit in self.produits if produit.quantite <= produit.seuil_alerte]
+    
+    def sauvegarder_donnees(self, chemin: str = "donnees/stock.json"):
+        donnees = {
+            "produits": [
+                {
+                    "nom": produit.nom,
+                    "reference": produit.reference,
+                    "prix_achat": produit.prix_achat,
+                    "prix_vente": produit.prix_vente,
+                    "quantite": produit.quantite,
+                    "seuil_alerte": produit.seuil_alerte
+                } for produit in self.produits
+            ]
+             }
+        with open(chemin, "w", encoding="utf-8") as fichier:
+            json.dump(donnees, fichier, ensure_ascii=False, indent=4)
+            
+    def charger_donnees(self, chemin: str = "donnees/stock.json"):
+        with open(chemin, "r", encoding="utf-8") as fichier:
+            donnees = json.load(fichier)
+        self.produits = [Produit(**produit_dict) for produit_dict in donnees["produits" ]]
