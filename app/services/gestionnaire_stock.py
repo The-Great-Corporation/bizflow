@@ -16,3 +16,8 @@ class GestionnaireStock:
         else:
             mouvement.produit.quantite += mouvement.quantite
         self.mouvements.append(mouvement)
+        
+    def calculer_marge(self, produit: Produit) -> float:
+        return produit.prix_vente - produit.prix_achat
+    def produit_en_alerte(self) -> list[Produit]:
+        return [produit for produit in self.produits if produit.quantite <= produit.seuil_alerte]
