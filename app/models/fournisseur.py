@@ -1,5 +1,7 @@
 from dataclasses import dataclass
-@dataclass 
+
+
+@dataclass
 class Fournisseur:
     nom: str
     adresse: str
