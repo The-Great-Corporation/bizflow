@@ -1,7 +1,8 @@
-from app.models.produit import Produit
-from app.models.mouvement_stock import MouvementStock, TypeMouvement
-from app.services.gestionnaire_stock import GestionnaireStock
 from datetime import datetime
+
+from app.models.mouvement_stock import MouvementStock, TypeMouvement
+from app.models.produit import Produit
+from app.services.gestionnaire_stock import GestionnaireStock
 
 
 def afficher_menu():
@@ -56,7 +57,9 @@ def enregistrer_mouvement(gestion: GestionnaireStock):
     type_saisi = input("Type de mouvement (entree/sortie) : ").strip().lower()
     quantite = int(input("Quantité : "))
 
-    type_mouvement = TypeMouvement.ENTREE if type_saisi == "entree" else TypeMouvement.SORTIE
+    type_mouvement = (
+        TypeMouvement.ENTREE if type_saisi == "entree" else TypeMouvement.SORTIE
+    )
 
     mouvement = MouvementStock(
         produit=produit_trouve,
@@ -78,7 +81,9 @@ def produit_en_alerte(gestion: GestionnaireStock):
         print("Aucun produit en alerte.")
         return
     for produit in alertes:
-        print(f"⚠️ {produit.nom} : {produit.quantite} restants (seuil : {produit.seuil_alerte})")
+        print(
+            f"⚠️ {produit.nom} : {produit.quantite} restants (seuil : {produit.seuil_alerte})"
+        )
 
 
 def main():
